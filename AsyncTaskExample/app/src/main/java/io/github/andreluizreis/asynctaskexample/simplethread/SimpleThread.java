@@ -1,11 +1,7 @@
 package io.github.andreluizreis.asynctaskexample.simplethread;
 
 /**
- * Created by André Luiz Reis on 2016-11-10.
- */
-
-/**
- * Simple Thread Example
+ * Simple Thread
  */
 public class SimpleThread extends Thread {
 
@@ -15,7 +11,7 @@ public class SimpleThread extends Thread {
     interface SimpleThreadCallback {
         /**
          * Callback Method that needs to be implemented in the Activity.
-         * @param response
+         * @param response Return the result to the activity.
          */
         void callback(String response);
     }
@@ -23,11 +19,11 @@ public class SimpleThread extends Thread {
     /**
      * Callback instance
      */
-    SimpleThreadCallback mSTCallback;
+    private final SimpleThreadCallback mSTCallback;
 
     /**
      * Constructor
-     * @param stCallback
+     * @param stCallback Simple Thread Callback instance
      */
     public SimpleThread(SimpleThreadCallback stCallback){
         mSTCallback = stCallback;
@@ -45,12 +41,14 @@ public class SimpleThread extends Thread {
                 if(!isInterrupted()){
                     Thread.sleep(50);
                 } else {
+                    mSTCallback.callback(null);
                     return;
                 }
             }
             mSTCallback.callback("SimpleThread => I finished correctly.");
         } catch(InterruptedException ex){
             ex.printStackTrace();
+            mSTCallback.callback(null);
         }
     }
 }
